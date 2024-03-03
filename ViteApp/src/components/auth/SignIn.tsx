@@ -11,16 +11,57 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { Copyright } from '../common/Copyright';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const SignIn = () => {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-    };
+    const Navigate = useNavigate();
+    const [value, setValue] = useState('');
+    const [error, setError] = useState('');
+    const [detailError, setDetailError] = useState(false);
+    const [valueError, setValueError] = useState(false);
+
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        const user = data.get('email');
+        const password = data.get('password');
+
+        fetch('http://localhost:3000/login', {
+            method: 'Post',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                user: user,
+                password: password,
+            })
+        })
+
+            .then((res) => res.status)
+            .then((res) => {
+
+                if (res === 200) {
+                    console.log('Login successful', value, error);
+                    Navigate('/dashtask');
+                }
+
+                if (res === 401) {
+                    setDetailError(true);
+                    setValueError(false);
+                    console.log('Password incorrect');
+                }
+
+                if (res === 500) {
+                    setValueError(true);
+                    setDetailError(true);
+                    console.log('User not found');
+                }
+
+            });
+
+    }
 
     return (
         <Grid container component="main" sx={{ height: '100vh' }}>
@@ -42,18 +83,28 @@ const SignIn = () => {
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                         <TextField
+
                             margin="normal"
                             required
+                            value={value}
+                            onChange={(e) => setValue(e.target.value)}
+                            error={valueError}
+                            helperText={!value ? 'Required' : ''}
                             fullWidth
                             id="email"
                             label="Email Address"
                             name="email"
                             autoComplete="email"
                             autoFocus
+
                         />
                         <TextField
                             margin="normal"
                             required
+                            value={error}
+                            onChange={(e) => setError(e.target.value)}
+                            error={detailError}
+                            helperText={!error ? 'Required' : ''}
                             fullWidth
                             name="password"
                             label="Password"
