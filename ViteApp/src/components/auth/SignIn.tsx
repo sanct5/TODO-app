@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import { Copyright } from '../common/Copyright';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import SloganLogo from '../../assets/Images/SloganLogoNoBackGround.png';
 
 const SignIn = () => {
     const Navigate = useNavigate();
@@ -64,39 +65,40 @@ const SignIn = () => {
     }
 
     return (
-        <Grid container component="main" sx={{ height: '100vh' }}>
-            <Grid item xs={12} sm={12} md={6} component={Paper} elevation={6} square>
+        <Grid container component="main" sx={{ minHeight: '100vh', alignContent: 'center' }}>
+            <Grid item xs={12} sm={12} md={6} component={Paper} elevation={6} square >
                 <Box
                     sx={{
-                        my: 8,
+                        my: 7,
                         mx: 4,
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: 'center',
+                        alignItems: 'center'
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: (t) => t.palette.secondary.main }}>
+                    <Avatar sx={{ m: 1, bgcolor: (t) => t.palette.primary.main }}>
                         <LockOutlinedIcon />
                     </Avatar>
-                    <Typography component="h2" variant="h5">
-                        Sign in
+                    <Typography component="h2" variant="h5" sx={{ fontWeight: 'bold' }}>
+                        Iniciar sesión
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                    <Typography variant="body1" sx={{ mt: 3, maxWidth: '70%', textAlign: 'justify' }}>
+                        Descubre el poder de organizar, administrar y realizar un seguimiento eficiente de tus tareas y proyectos. ¡Haz que cada día cuente y lleva la productividad al siguiente nivel con nosotros!
+                    </Typography>
+                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, maxWidth: '70%' }}>
                         <TextField
-
                             margin="normal"
                             required
                             value={value}
                             onChange={(e) => setValue(e.target.value)}
                             error={valueError}
-                            helperText={!value ? 'Required' : ''}
+                            helperText={!value ? 'Requerido' : ''}
                             fullWidth
                             id="email"
-                            label="Email Address"
+                            label="Correo electrónico"
                             name="email"
                             autoComplete="email"
                             autoFocus
-
                         />
                         <TextField
                             margin="normal"
@@ -104,35 +106,35 @@ const SignIn = () => {
                             value={error}
                             onChange={(e) => setError(e.target.value)}
                             error={detailError}
-                            helperText={!error ? 'Required' : ''}
+                            helperText={!error ? 'Requerido' : ''}
                             fullWidth
                             name="password"
-                            label="Password"
+                            label="Contraseña"
                             type="password"
                             id="password"
                             autoComplete="current-password"
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
+                            label="Recuérdame"
                         />
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{ mt: 3, mb: 4, height: '50px' }}
                         >
-                            Sign In
+                            Acceder
                         </Button>
                         <Grid container>
                             <Grid item xs>
                                 <Link href="#" variant="body2">
-                                    Forgot password?
+                                    ¿Olvidó su contraseña?
                                 </Link>
                             </Grid>
                             <Grid item>
                                 <Link href="#" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                    {"¿No tienes una cuenta? Regístrate"}
                                 </Link>
                             </Grid>
                         </Grid>
@@ -146,11 +148,10 @@ const SignIn = () => {
                 sm={0}
                 md={6}
                 sx={{
-                    backgroundImage: 'url(https://source.unsplash.com/random)',
+                    backgroundImage: `url(${SloganLogo})`,
                     backgroundRepeat: 'no-repeat',
-                    backgroundColor: (t) => t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'right',
+                    backgroundColor: (t) => t.palette.primary.main,
+                    backgroundPosition: 'center',
                 }}
             />
         </Grid>
