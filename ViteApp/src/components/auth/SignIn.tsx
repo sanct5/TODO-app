@@ -59,21 +59,19 @@ const SignIn = () => {
                     setDetailError(true);
                     console.log('User not found');
                 }
-
             });
-
     }
 
     return (
-        <Grid container component="main" sx={{ minHeight: '100vh', alignContent: 'center' }}>
-            <Grid item xs={12} sm={12} md={6} component={Paper} elevation={6} square >
+        <Grid container component="main" sx={{ minHeight: '100vh' }}>
+            <Grid item xs={12} sm={12} md={6} component={Paper} elevation={6} square sx={{ display: 'flex', alignItems: 'center' }}>
                 <Box
                     sx={{
-                        my: 7,
+                        my: 8,
                         mx: 4,
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: 'center'
+                        alignItems: 'center',
                     }}
                 >
                     <Avatar sx={{ m: 1, bgcolor: (t) => t.palette.primary.main }}>
@@ -82,10 +80,10 @@ const SignIn = () => {
                     <Typography component="h2" variant="h5" sx={{ fontWeight: 'bold' }}>
                         Iniciar sesión
                     </Typography>
-                    <Typography variant="body1" sx={{ mt: 3, maxWidth: '70%', textAlign: 'justify' }}>
+                    <Typography variant="body1" sx={{ mt: 3, maxWidth: { xs: '90%', sm: '70%' }, textAlign: 'justify' }}>
                         Descubre el poder de organizar, administrar y realizar un seguimiento eficiente de tus tareas y proyectos. ¡Haz que cada día cuente y lleva la productividad al siguiente nivel con nosotros!
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, maxWidth: '70%' }}>
+                    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, maxWidth: { xs: '90%', sm: '70%' } }}>
                         <TextField
                             margin="normal"
                             required
