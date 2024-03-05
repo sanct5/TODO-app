@@ -6,12 +6,11 @@ import {
   Route,
   BrowserRouter
 } from "react-router-dom";
-
+import Notification from "./components/common/Notification";
 
 function App() {
   return (
     <div>
-
       <BrowserRouter>
         <Routes>
           <Route>
@@ -20,11 +19,8 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-
+      <Notification />
     </div>
-
-
   );
 }
-
 export default App;

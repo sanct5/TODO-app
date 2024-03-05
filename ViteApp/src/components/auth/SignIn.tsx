@@ -14,6 +14,7 @@ import { Copyright } from '../common/Copyright';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import SloganLogo from '../../assets/Images/SloganLogoNoBackGround.png';
+import {toast} from 'react-toastify';
 
 const SignIn = () => {
     const Navigate = useNavigate();
@@ -46,18 +47,19 @@ const SignIn = () => {
                 if (res === 200) {
                     console.log('Login successful', value, error);
                     Navigate('/dashtask');
+                    toast.success('Inicio de sesión exitoso');
                 }
 
                 if (res === 401) {
                     setDetailError(true);
                     setValueError(false);
-                    console.log('Password incorrect');
+                    toast.warn('Contraseña incorrecta');
                 }
 
                 if (res === 500) {
                     setValueError(true);
                     setDetailError(true);
-                    console.log('User not found');
+                    toast.error('Usuario incorrecto o no existe');
                 }
             });
     }
@@ -86,31 +88,29 @@ const SignIn = () => {
                     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, maxWidth: { xs: '90%', sm: '70%' } }}>
                         <TextField
                             margin="normal"
-                            required
                             value={value}
                             onChange={(e) => setValue(e.target.value)}
                             error={valueError}
-                            helperText={!value ? 'Requerido' : ''}
                             fullWidth
                             id="email"
                             label="Correo electrónico"
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            sx={{backgroundColor: '#f4f4f4'}}
                         />
                         <TextField
                             margin="normal"
-                            required
                             value={error}
                             onChange={(e) => setError(e.target.value)}
                             error={detailError}
-                            helperText={!error ? 'Requerido' : ''}
                             fullWidth
                             name="password"
                             label="Contraseña"
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            sx={{backgroundColor: '#f4f4f4'}}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
