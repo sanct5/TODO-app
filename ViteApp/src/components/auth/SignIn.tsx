@@ -14,7 +14,7 @@ import { Copyright } from '../common/Copyright';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import SloganLogo from '../../assets/Images/SloganLogoNoBackGround.png';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const SignIn = () => {
     const Navigate = useNavigate();
@@ -24,44 +24,55 @@ const SignIn = () => {
     const [valueError, setValueError] = useState(false);
 
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
         const user = data.get('email');
         const password = data.get('password');
 
-        fetch('http://localhost:3000/login', {
-            method: 'Post',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                user: user,
-                password: password,
-            })
-        })
-
-            .then((res) => res.status)
-            .then((res) => {
-
-                if (res === 200) {
-                    console.log('Login successful', value, error);
-                    Navigate('/dashtask');
-                    toast.success('Inicio de sesión exitoso');
-                }
-
-                if (res === 401) {
-                    setDetailError(true);
-                    setValueError(false);
-                    toast.warn('Contraseña incorrecta');
-                }
-
-                if (res === 500) {
-                    setValueError(true);
-                    setDetailError(true);
-                    toast.error('Usuario incorrecto o no existe');
-                }
+        try {
+            const response = await fetch(`${import.meta.env.VITE_OTASK_BACKEND}/login`, {
+                method: 'Post',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    user: user,
+                    password: password,
+                })
             });
+
+            const res = await response.status;
+            const userId = "poshito123"
+
+            if (res === 200) {
+                console.log('Login successful', value, error);
+                Navigate(`/dashtask/${userId}`);
+                toast.success('Inicio de sesión exitoso');
+            }
+
+            if (res === 401) {
+                setDetailError(true);
+                setValueError(false);
+                toast.error('Contraseña incorrecta');
+            }
+
+            if (res === 404) {
+                setDetailError(false);
+                setValueError(false);
+                toast.info('No se encontró el recursos solicitado');
+            }
+
+            if (res === 500) {
+                setValueError(true);
+                setDetailError(true);
+                toast.warn('Usuario incorrecto o no existe');
+            }
+        } catch (error) {
+            setDetailError(false);
+            setValueError(false);
+            toast.error('Error interno, no eres tu, somos nosotros');;
+        }
     }
 
     return (
@@ -97,7 +108,7 @@ const SignIn = () => {
                             name="email"
                             autoComplete="email"
                             autoFocus
-                            sx={{backgroundColor: '#f4f4f4'}}
+                            sx={{ backgroundColor: '#f4f4f4' }}
                         />
                         <TextField
                             margin="normal"
@@ -110,7 +121,7 @@ const SignIn = () => {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            sx={{backgroundColor: '#f4f4f4'}}
+                            sx={{ backgroundColor: '#f4f4f4' }}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}

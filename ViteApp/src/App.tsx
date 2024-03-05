@@ -15,7 +15,7 @@ function App() {
         <Routes>
           <Route>
             <Route path="/" element={<SignIn />} />
-            <Route path="/dashtask" element={<Dashtask />} />
+            <Route path="/dashtask/:userId" element={<Dashtask />} />
           </Route>
         </Routes>
       </BrowserRouter>

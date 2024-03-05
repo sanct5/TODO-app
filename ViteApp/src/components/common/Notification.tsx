@@ -14,6 +14,7 @@ const Notification = () => {
             draggable
             pauseOnHover
             theme="colored"
+            stacked
         />
     )
 }
