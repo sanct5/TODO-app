@@ -1,3 +1,11 @@
+# Credenciales de inicio de sesión:
+
+**correo:**  correoprueba@gmail.com
+**Contraseña:** contraseñaPruebaCorreo
+
+# Nota
+Sabemos que por buenas practicas el .env no se versiona, pero para este caso lo hemos incluido para que pueda ejecutarlo sin problemas.
+
 # Requisitos funcionales de OurTask
 ## Equipo: 
 - Santiago Campiño Tamayo

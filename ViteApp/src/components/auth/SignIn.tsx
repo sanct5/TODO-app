@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import SloganLogo from '../../assets/Images/SloganLogoNoBackGround.png';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const SignIn = () => {
     const Navigate = useNavigate();
@@ -30,19 +31,30 @@ const SignIn = () => {
         const user = data.get('email');
         const password = data.get('password');
 
+        if (!user) {
+            toast.warn('El campo de correo electrónico no puede estar vacío');
+            return;
+        }
+
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+        if (!emailRegex.test(user as string)) {
+            toast.warn('El correo electrónico ingresado no es válido');
+            return;
+        }
+
+        if (!password) {
+            toast.warn('El campo de contraseña no puede estar vacío');
+            return;
+        }
+
         try {
-            const response = await fetch(`${import.meta.env.VITE_OTASK_BACKEND}/login`, {
-                method: 'Post',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    user: user,
-                    password: password,
-                })
+            const response = await axios.post(`${import.meta.env.VITE_OTASK_BACKEND}/user/login`, {
+                user: user,
+                password: password,
             });
 
-            const res = await response.status;
+            const res = response.status;
             const userId = "poshito123"
 
             if (res === 200) {
@@ -54,7 +66,7 @@ const SignIn = () => {
             if (res === 401) {
                 setDetailError(true);
                 setValueError(false);
-                toast.error('Contraseña incorrecta');
+                toast.error('Contraseña o correo electrónico incorrecto');
             }
 
             if (res === 404) {
@@ -66,8 +78,9 @@ const SignIn = () => {
             if (res === 500) {
                 setValueError(true);
                 setDetailError(true);
-                toast.warn('Usuario incorrecto o no existe');
+                toast.warn('Credenciales incorrectas o está registrado');
             }
+
         } catch (error) {
             setDetailError(false);
             setValueError(false);
