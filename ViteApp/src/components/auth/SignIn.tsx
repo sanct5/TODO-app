@@ -15,31 +15,29 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import SloganLogo from '../../assets/Images/SloganLogoNoBackGround.png';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import { validateEmailFormat } from '../common/validations';
 
 const SignIn = () => {
     const Navigate = useNavigate();
-    const [value, setValue] = useState('');
-    const [error, setError] = useState('');
-    const [detailError, setDetailError] = useState(false);
-    const [valueError, setValueError] = useState(false);
+    const [emailInput, setEmailInput] = useState('');
+    const [passwordInput, setPasswordInput] = useState('');
+    const [validPassword, setValidPassword] = useState(false);
+    const [validEmail, setValidEmail] = useState(false);
 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
-        const user = data.get('email');
-        const password = data.get('password');
+        const email = (data.get('email') as string).trim().toLowerCase();
+        const password = (data.get('password') as string).trim();
 
-        if (!user) {
+        if (!email) {
             toast.warn('El campo de correo electrónico no puede estar vacío');
             return;
         }
 
-        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-
-        if (!emailRegex.test(user as string)) {
-            toast.warn('El correo electrónico ingresado no es válido');
+        if (!validateEmailFormat(email as string)) {
             return;
         }
 
@@ -50,41 +48,32 @@ const SignIn = () => {
 
         try {
             const response = await axios.post(`${import.meta.env.VITE_OTASK_BACKEND}/user/login`, {
-                user: user,
+                user: email,
                 password: password,
             });
 
-            const res = response.status;
-            const userId = "poshito123"
+            console.log(response);
+            const emailId = "poshito123"
 
-            if (res === 200) {
-                console.log('Login successful', value, error);
-                Navigate(`/dashtask/${userId}`);
-                toast.success('Inicio de sesión exitoso');
-            }
-
-            if (res === 401) {
-                setDetailError(true);
-                setValueError(false);
-                toast.error('Contraseña o correo electrónico incorrecto');
-            }
-
-            if (res === 404) {
-                setDetailError(false);
-                setValueError(false);
-                toast.info('No se encontró el recursos solicitado');
-            }
-
-            if (res === 500) {
-                setValueError(true);
-                setDetailError(true);
-                toast.warn('Credenciales incorrectas o está registrado');
-            }
+            Navigate(`/dashtask/${emailId}`);
+            toast.success(`Bienvenido ${emailId}!`);
 
         } catch (error) {
-            setDetailError(false);
-            setValueError(false);
-            toast.error('Error interno, no eres tu, somos nosotros');;
+            const res = (error as AxiosError).response?.status;
+
+            if (res === 401) {
+                setValidPassword(true);
+                setValidEmail(true);
+                toast.error('Contraseña o correo electrónico incorrecto');
+            } else if (res === 404) {
+                setValidPassword(false);
+                setValidEmail(false);
+                toast.info('No se encontró el recurso solicitado');
+            } else {
+                setValidPassword(false);
+                setValidEmail(false);
+                toast.warn('Algo salió mal, no eres tu, somos nosotros, inténtalo de nuevo más tarde');
+            }
         }
     }
 
@@ -112,9 +101,9 @@ const SignIn = () => {
                     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, maxWidth: { xs: '90%', sm: '70%' } }}>
                         <TextField
                             margin="normal"
-                            value={value}
-                            onChange={(e) => setValue(e.target.value)}
-                            error={valueError}
+                            value={emailInput}
+                            onChange={(e) => setEmailInput(e.target.value)}
+                            error={validEmail}
                             fullWidth
                             id="email"
                             label="Correo electrónico"
@@ -125,9 +114,9 @@ const SignIn = () => {
                         />
                         <TextField
                             margin="normal"
-                            value={error}
-                            onChange={(e) => setError(e.target.value)}
-                            error={detailError}
+                            value={passwordInput}
+                            onChange={(e) => setPasswordInput(e.target.value)}
+                            error={validPassword}
                             fullWidth
                             name="password"
                             label="Contraseña"
