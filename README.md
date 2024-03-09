@@ -5,6 +5,7 @@
 
 # Nota
 Sabemos que por buenas practicas el .env no se versiona, pero para este caso lo hemos incluido para que pueda ejecutarlo sin problemas.
+El modelo C4 está en la carpeta de documents.
 
 # Requisitos funcionales de OurTask
 ## Equipo: 
