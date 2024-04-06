@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -11,71 +11,50 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { Copyright } from '../common/Copyright';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import SloganLogo from '../../assets/Images/SloganLogoNoBackGround.png';
-import { toast } from 'react-toastify';
-import axios, { AxiosError } from 'axios';
-import { validateEmailFormat } from '../common/validations';
+import { useSelector, useDispatch } from 'react-redux';
+import { LoginUser } from '../../redux/users/userThunks';
+import { UserState, setUser, setStayLogged } from '../../redux/users/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { getWithExpiry } from '../utils/localStorage';
 
 const SignIn = () => {
+    const dispatch = useDispatch();
     const Navigate = useNavigate();
+
+    //Estos estados se utilizan para manejar los inputs del formulario
     const [emailInput, setEmailInput] = useState('');
     const [passwordInput, setPasswordInput] = useState('');
-    const [validPassword, setValidPassword] = useState(false);
-    const [validEmail, setValidEmail] = useState(false);
+    const [checkedRemember, setCheckedRemember] = useState(false);
 
+    //Estados para almacenar si el usuario está autenticado y si se debe recordar
+    const { isLogin, stayLogged } = useSelector((state: { user: UserState }) => state.user);
 
+    //Verifica si el checkbox de recordar está marcado
+    const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setCheckedRemember(event.target.checked);
+    };
+
+    //Función que se ejecuta al enviar el formulario
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        dispatch(setStayLogged(checkedRemember));
         const data = new FormData(e.currentTarget);
-        const email = (data.get('email') as string).trim().toLowerCase();
-        const password = (data.get('password') as string).trim();
-
-        if (!email) {
-            toast.warn('El campo de correo electrónico no puede estar vacío');
-            return;
-        }
-
-        if (!validateEmailFormat(email as string)) {
-            return;
-        }
-
-        if (!password) {
-            toast.warn('El campo de contraseña no puede estar vacío');
-            return;
-        }
-
-        try {
-            const response = await axios.post(`${import.meta.env.VITE_OTASK_BACKEND}/user/login`, {
-                user: email,
-                password: password,
-            });
-
-            console.log(response);
-            const emailId = "poshito123"
-
-            Navigate(`/dashtask/${emailId}`);
-            toast.success(`Bienvenido ${emailId}!`);
-
-        } catch (error) {
-            const res = (error as AxiosError).response?.status;
-
-            if (res === 401) {
-                setValidPassword(true);
-                setValidEmail(true);
-                toast.error('Contraseña o correo electrónico incorrecto');
-            } else if (res === 404) {
-                setValidPassword(false);
-                setValidEmail(false);
-                toast.info('No se encontró el recurso solicitado');
-            } else {
-                setValidPassword(false);
-                setValidEmail(false);
-                toast.warn('Algo salió mal, no eres tu, somos nosotros, inténtalo de nuevo más tarde');
-            }
-        }
+        // @ts-ignore
+        dispatch(LoginUser(data));
     }
+
+    //Si el usuario ya está logueado, o marcó la casilla de recordar previamente, se redirige al dashboard
+    useEffect(() => {
+        const loggedUser = getWithExpiry('user');
+        if (loggedUser) {
+            dispatch(setUser(loggedUser));
+        }
+
+        if (isLogin) {
+            Navigate('/dashtask');
+        }
+    }, [isLogin, stayLogged]);
 
     return (
         <Grid container component="main" sx={{ minHeight: '100vh' }}>
@@ -103,7 +82,6 @@ const SignIn = () => {
                             margin="normal"
                             value={emailInput}
                             onChange={(e) => setEmailInput(e.target.value)}
-                            error={validEmail}
                             fullWidth
                             id="email"
                             label="Correo electrónico"
@@ -116,7 +94,6 @@ const SignIn = () => {
                             margin="normal"
                             value={passwordInput}
                             onChange={(e) => setPasswordInput(e.target.value)}
-                            error={validPassword}
                             fullWidth
                             name="password"
                             label="Contraseña"
@@ -126,7 +103,12 @@ const SignIn = () => {
                             sx={{ backgroundColor: '#f4f4f4' }}
                         />
                         <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
+                            control={
+                                <Checkbox
+                                    onChange={handleChecked}
+                                    color="primary"
+                                />
+                            }
                             label="Recuérdame"
                         />
                         <Button
