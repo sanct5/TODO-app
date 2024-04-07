@@ -52,7 +52,7 @@ const SignIn = () => {
         }
 
         if (isLogin) {
-            Navigate('/dashtask');
+            Navigate('/app/task');
         }
     }, [isLogin, stayLogged]);
 
