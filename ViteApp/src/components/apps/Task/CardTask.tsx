@@ -36,7 +36,6 @@ function LinearProgressWithLabel(props: LinearProgressProps & { value: number })
                     props.value,
                 )}%`}</Typography>
             </Box>
-
         </Box>
     );
 }
