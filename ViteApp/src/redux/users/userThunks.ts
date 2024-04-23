@@ -32,15 +32,16 @@ export const LoginUser = (data: any) => {
                 password: password,
             });
 
-            // Descomentar esta linea cuando se agregue la propiedad name en el back y borrar la siguiente --> dispatch(setUser({ name: response.data.name, email: email, isLogin: true}));
-            dispatch(setUser({ name: email, email: email, isLogin: true }));
+            const name = response.data.userName;
+
+            dispatch(setUser({ name: name, email: email, isLogin: true }));
             const { stayLogged } = getState().user;
-            /* if (stayLogged) {
-                saveWithExpiry('user', { name: response.data.name, email: email, isLogin: true }, 30);
-            } Descomentar este bloque cuando se agregue la propiedad name en el back y borrar el siguiente */
+
             if (stayLogged) {
-                saveWithExpiry('user', { name: email, email: email, isLogin: true }, 30);
+                saveWithExpiry('user', { name: name, email: email, isLogin: true }, 30);
             }
+
+            toast.success(`Bienvenid@ ${name}`);
         } catch (error) {
             const res = (error as AxiosError).response?.status;
             if (res === 401) {
