@@ -196,7 +196,9 @@ const Navbar = ({ children }: { children: ReactNode }) => {
                 }}
             >
                 <Toolbar />
-                {children}
+                <div className='p-0 sm:p-7'>
+                    {children}
+                </div>
             </Box>
         </Box>
     )
