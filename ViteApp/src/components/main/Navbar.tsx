@@ -99,8 +99,6 @@ const Navbar = ({ children }: { children: ReactNode }) => {
         if (!user.isLogin && !loggedUser) {
             toast.error('Por favor inicia sesión nuevamente');
             navigate('/login');
-        } else {
-            toast.success(`Bienvenido ${user.name}`);
         }
     }, []);
 
@@ -196,7 +194,9 @@ const Navbar = ({ children }: { children: ReactNode }) => {
                 }}
             >
                 <Toolbar />
-                {children}
+                <div className='p-0 sm:p-7'>
+                    {children}
+                </div>
             </Box>
         </Box>
     )
