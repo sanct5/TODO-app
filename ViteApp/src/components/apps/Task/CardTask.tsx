@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 
-interface ActionAreaCardProps {
+export interface ActionAreaCardProps {
     id: number;
     description: string;
     title: string;
@@ -28,10 +28,10 @@ function getProgress(steps: { title: string; status: boolean; }[]) {
 function LinearProgressWithLabel(props: LinearProgressProps & { value: number }) {
     return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ width: '100%', pl: 2, pr: 1 }}>
+            <Box sx={{ width: '100%' }}>
                 <LinearProgress variant="determinate" className="rounded-lg" {...props} sx={{ height: "10px" }} />
             </Box>
-            <Box sx={{ pr: 2 }}>
+            <Box sx={{ ml: 2 }}>
                 <Typography variant="body2" color="text.secondary">{`${Math.round(
                     props.value,
                 )}%`}</Typography>
@@ -43,23 +43,23 @@ function LinearProgressWithLabel(props: LinearProgressProps & { value: number })
 export default function ActionAreaCard({ id, title, endDate, steps }: ActionAreaCardProps) {
     return (
         <Link to={`${id}`}>
-            <Card sx={{  minWidth: 300, maxWidth: 300, minHeight: 360, maxHeight: 360 }}>
+            <Card className="mt-4 mr-4 max-h-96 max-w-xl sm:max-w-80 p-4 rounded-xl">
                 <CardActionArea>
-                    <CardMedia
+                    <CardMedia className="rounded-xl"
                         component="img"
                         style={{ height: 180 }}
                         image={logo}
                     />
                     <CardContent>
-                        <Typography gutterBottom variant="h5" component="div" align="left" sx={{display:"flex", pl: 2, pr: 2 }}>
+                        <Typography gutterBottom variant="h5" component="div" align="left" sx={{ display: "flex", fontWeight: 'bold' }}>
                             {title}
                         </Typography>
-                        <Box sx={{ pl: 2 }}>
+                        <Box>
                             <Typography variant="body2" color="text.primary">Progreso</Typography>
                         </Box>
                         <LinearProgressWithLabel value={getProgress(steps)} />
-                        <Typography gutterBottom variant="body2" component="div" sx={{ display: "flex", alignItems: 'center', pl: 2, pt: 1 }}>
-                            <CalendarMonthIcon />
+                        <Typography gutterBottom variant="body2" component="div" sx={{ display: "flex", alignItems: 'center', marginTop: "10px" }}>
+                            <CalendarMonthIcon className="mr-2" />
                             {endDate}
                         </Typography>
                     </CardContent>

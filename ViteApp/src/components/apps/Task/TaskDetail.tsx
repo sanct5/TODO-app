@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import data from './data.json';
 import { Container, Grid, Typography } from '@mui/material';
 import logo from '../../../assets/Images/Logo.png';
 import { CardMedia } from "@mui/material";
