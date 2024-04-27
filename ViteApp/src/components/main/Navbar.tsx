@@ -114,6 +114,9 @@ const Navbar = ({ children }: { children: ReactNode }) => {
         case '/app/profile':
             title = 'Perfil';
             break;
+        case '/app/task/create':
+            title = 'Agregar tareas';
+            break;
         default:
             title = 'Dashboard';
     }

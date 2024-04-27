@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Container, Grid, Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import logo from '../../../assets/Images/Logo.png';
 import Box from '@mui/material/Box';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -15,6 +15,7 @@ import { useEffect } from 'react';
 import { ManageTaskService } from '../../../api/tasks';
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
+import { format } from '@formkit/tempo';
 
 interface task {
     title: string;
@@ -33,6 +34,7 @@ interface Step {
 const TaskDetail = () => {
     const { id } = useParams();
     const [task, setTask] = useState<{ message: task } | null>(null);
+
     useEffect(() => {
         const fetchTask = async () => {
             try {
@@ -53,6 +55,7 @@ const TaskDetail = () => {
         };
         fetchTask();
     }, [id]);
+
     // Función para renderizar la lista de pasos
     function renderSteps() {
         if (!task || !('message' in task)) {
@@ -75,49 +78,51 @@ const TaskDetail = () => {
         return; //indicador de carga aquí
     }
     return (
-        <Container disableGutters className="bg-white flex flex-row justify-center max-w-3xl rounded-lg">
-            <Box>
+        <Box className="flex flex-row">
+            <Box className="hidden sm:block">
                 <IconButton onClick={() => window.history.back()}>
                     <ArrowBackIcon color="primary" style={{ fontSize: 40 }} />
                 </IconButton>
             </Box>
-            <Box className="justify-center w-full">
-                <img src={logo} alt="Logo" className="rounded-lg" style={{ width: '100%', maxHeight: '250px', objectFit: "cover" }} />
-                <Box className="flex flex-col p-8">
-                    <Box mb={2}>
-                        <Typography variant="h4" fontWeight="bold">
-                            {task.message.title}
-                        </Typography>
-                        <Box className="flex flex-col sm:flex-row">
-                            <Typography variant="body1">
-                                <CalendarMonthIcon color="primary" />
-                                {task.message.startDate.substring(0, 10)}
+            <Container disableGutters className="bg-white flex flex-row justify-center max-w-3xl rounded-lg">
+                <Box className="justify-center w-full">
+                    <img src={logo} alt="Logo" className="rounded-lg" style={{ width: '100%', maxHeight: '250px', objectFit: "cover" }} />
+                    <Box className="flex flex-col p-8">
+                        <Box mb={2}>
+                            <Typography variant="h4" fontWeight="bold">
+                                {task.message.title}
                             </Typography>
-                            <Typography variant="body1" className="ml-0 mt-2 sm:mt-0 sm:ml-5 ">
-                                <DateRangeIcon color="primary" />
-                                {task.message.endDate.substring(0, 10)}
+                            <Box className="flex flex-col sm:flex-row">
+                                <Typography variant="body1">
+                                    <CalendarMonthIcon color="primary" className="mr-2" />
+                                    {format(task.message.startDate, { date: "medium" })}
+                                </Typography>
+                                <Typography variant="body1" className="ml-0 mt-2 sm:mt-0 sm:ml-5 ">
+                                    <DateRangeIcon color="primary" className="mr-2" />
+                                    {format(task.message.endDate, { date: "medium" })}
+                                </Typography>
+                            </Box>
+                        </Box>
+                        <Box mb={2}>
+                            <Typography variant="h5" fontWeight="bold" pt={1}>
+                                Descripción
+                            </Typography>
+                            <Typography variant="body1" pt={1}>
+                                {task.message.description}
                             </Typography>
                         </Box>
-                    </Box>
-                    <Box mb={2}>
-                        <Typography variant="h5" fontWeight="bold" pt={1}>
-                            Descripción
-                        </Typography>
-                        <Typography variant="body1" pt={1}>
-                            {task.message.description}
-                        </Typography>
-                    </Box>
-                    <Box mb={2}>
-                        <Typography variant="h5" fontWeight="bold" pt={1}>
-                            Listado de pasos
-                        </Typography>
-                        <List dense={true}>
-                            {renderSteps()}
-                        </List>
+                        <Box mb={2}>
+                            <Typography variant="h5" fontWeight="bold" pt={1}>
+                                Listado de pasos
+                            </Typography>
+                            <List dense={true}>
+                                {renderSteps()}
+                            </List>
+                        </Box>
                     </Box>
                 </Box>
-            </Box>
-        </Container>
+            </Container>
+        </Box>
     );
 };
 export default TaskDetail;

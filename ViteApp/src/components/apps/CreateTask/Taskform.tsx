@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Button, TextField, Box, Container, IconButton, useMediaQuery, useTheme } from '@mui/material';
+import { Button, TextField, Box, Container, IconButton, Typography } from '@mui/material';
 import { validateTask } from '../../utils/validations';
 import ImageIcon from '@mui/icons-material/Image';
 import { toast } from 'react-toastify';
@@ -23,8 +23,6 @@ interface Task {
 }
 
 const Taskform = () => {
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const user = useSelector((state: { user: UserState }) => state.user);
   const [image, setImage] = useState<File | null>(null);
   const [task, setTask] = useState<Task>({
@@ -74,7 +72,7 @@ const Taskform = () => {
         const response = await axios.post(`${ManageTaskService.baseUrl}${ManageTaskService.endpoints.createTask}`, output);
         console.log('Success:', response.data);
         toast.success('Tarea creada con éxito');
-        window.location.href = '/task';
+        window.history.back();
       } catch (error) {
         console.error('Error:', error);
         toast.error('La solicitud no fue exitosa, verifica los campos e inténtalo más tarde');
@@ -83,7 +81,8 @@ const Taskform = () => {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ backgroundColor: 'white', borderRadius: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: isSmallScreen ? 'auto' : '100vh', marginTop: 2, padding: isSmallScreen ? 2 : 0 }}>
+    <Container maxWidth="sm" sx={{ backgroundColor: 'white', borderRadius: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 2 }}>
+      <Typography variant="h4" sx={{ marginBottom: 2 }}>Agregar una nueva tarea</Typography>
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -97,7 +96,7 @@ const Taskform = () => {
         noValidate
         autoComplete="off"
       >
-        <Box sx={{ width: '100%', height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid gray', borderRadius: 1, marginBottom: 2 }}>
+        <Box sx={{ width: '100%', height: "auto", display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid gray', borderRadius: 1, marginBottom: 2 }}>
           <input
             accept="image/*"
             style={{ display: 'none' }}

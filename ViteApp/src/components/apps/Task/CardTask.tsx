@@ -43,7 +43,7 @@ function LinearProgressWithLabel(props: LinearProgressProps & { value: number })
 export default function ActionAreaCard({ id, title, endDate, steps }: ActionAreaCardProps) {
     return (
         <Link to={`${id}`}>
-            <Card className="mt-4 mr-4 max-h-96 max-w-xl sm:max-w-80 p-4 rounded-xl">
+            <Card className="mt-4 mr-4 max-h-min max-w-xl sm:max-w-80 p-4 rounded-xl">
                 <CardActionArea>
                     <CardMedia className="rounded-xl"
                         component="img"

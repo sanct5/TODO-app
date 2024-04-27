@@ -1,11 +1,14 @@
 # Credenciales de inicio de sesión:
 
-**correo:**  correoprueba@gmail.com
-**Contraseña:** contraseñaPruebaCorreo
+**correo:**  bramora@gmail.com
+**Contraseña:** brayan32
+
+Puede marcar la casilla de "Recuérdame" para evitar tener que iniciar sesión nuevamente.
 
 # Nota
 Sabemos que por buenas practicas el .env no se versiona, pero para este caso lo hemos incluido para que pueda ejecutarlo sin problemas.
-El modelo C4 está en la carpeta de documents.
+
+El modelo C4 de la segunda entrega está en la carpeta Documents al igual que el QAW.
 
 # Requisitos funcionales de OurTask
 ## Equipo: 
