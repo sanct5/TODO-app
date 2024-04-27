@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Button, TextField, Box, Container, IconButton } from '@mui/material';
+import { Button, TextField, Box, Container, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { validateTask } from '../../utils/validations';
 import ImageIcon from '@mui/icons-material/Image';
 import { toast } from 'react-toastify';
@@ -23,6 +23,8 @@ interface Task {
 }
 
 const Taskform = () => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const user = useSelector((state: { user: UserState }) => state.user);
   const [image, setImage] = useState<File | null>(null);
   const [task, setTask] = useState<Task>({
@@ -81,7 +83,7 @@ const Taskform = () => {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ backgroundColor: 'white', borderRadius: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', marginTop: 2 }}>
+    <Container maxWidth="sm" sx={{ backgroundColor: 'white', borderRadius: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: isSmallScreen ? 'auto' : '100vh', marginTop: 2, padding: isSmallScreen ? 2 : 0 }}>
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -110,7 +112,7 @@ const Taskform = () => {
           </label>
         </Box>
         <TextField label="Titulo" value={task.title} onChange={e => setTask({ ...task, title: e.target.value })} size="medium" fullWidth />
-        <TextField label="Descripcion" value={task.description} onChange={e => setTask({ ...task, description: e.target.value })} multiline rows={4} size="medium" fullWidth />
+        <TextField label="Descripción" value={task.description} onChange={e => setTask({ ...task, description: e.target.value })} multiline rows={4} size="medium" fullWidth />
         <TextField label="Fecha de inicio (mm/dd/aaaa)" value={task.startDate} onChange={e => setTask({ ...task, startDate: e.target.value })} size="medium" fullWidth />
         <TextField label="Fecha de finalización (mm/dd/aaaa)" value={task.endDate} onChange={e => setTask({ ...task, endDate: e.target.value })} size="medium" fullWidth />
         {task.steps.map((step, index) => (
