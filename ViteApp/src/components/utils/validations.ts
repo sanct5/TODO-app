@@ -4,9 +4,10 @@ export const validateEmailFormat = (email: string) => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
     if (!emailRegex.test(email)) {
-        return toast.warn('El correo electrónico ingresado no es válido');
+        toast.warn('El correo electrónico ingresado no es válido');
+        return false;
     }
-    return true;
+    return true;
 }
 
 export const validateTask = (task: any) => {
