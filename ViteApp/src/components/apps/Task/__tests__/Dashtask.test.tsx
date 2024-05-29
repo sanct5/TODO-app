@@ -96,6 +96,7 @@ describe('Dashtask', () => {
         );
         await waitFor(() => {
             fireEvent.click(screen.getByText(/Ordenar por expiración/i));
+            fireEvent.click(screen.getByText(/Ordenar por expiración/i));
         });
     });
 });

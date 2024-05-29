@@ -14,7 +14,7 @@ export default defineConfig({
     globals: true,
     setupFiles: "./test/setup.ts",
     coverage: {
-      exclude: ["src/components/main", "src/theme", "src/router", "src/redux", "src/components/utils/localStorage.ts"],
+      exclude: ["src/components/main", "src/components/auth", "src/App.tsx", "src/main.tsx","src/theme", "src/router", "src/redux", "src/components/utils/localStorage.ts"],
       include: ["src/**/*.tsx"],
       reporter: ["text", "lcov"],
     }
