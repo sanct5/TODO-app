@@ -31,6 +31,24 @@ interface Step {
     _id: string;
 }
 
+export function renderSteps(task: { message: task } | null) {
+    if (!task || !task.message || !task.message.steps || !('message' in task)) {
+        return null;
+    }
+    return task.message.steps.map((step: Step, index: number) => (
+        <ListItem key={index}>
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={step.status.toString() === 'true'}
+                    />
+                }
+                label={step.title} {...(step.status.toString() === 'true' ? { style: { textDecoration: 'line-through' } } : {})}
+            />
+        </ListItem>
+    ));
+}
+
 const TaskDetail = () => {
     const { id } = useParams();
     const [task, setTask] = useState<{ message: task } | null>(null);
@@ -43,6 +61,7 @@ const TaskDetail = () => {
                     throw new Error('No se encontró la tarea');
                 }
                 const taskData = response.data.message; // Actualizado para reflejar la estructura del objeto de respuesta
+                console.log(taskData);
                 setTask(taskData);
             } catch (error) {
                 const res = (error as AxiosError).response?.status;
@@ -57,30 +76,16 @@ const TaskDetail = () => {
     }, [id]);
 
     // Función para renderizar la lista de pasos
-    function renderSteps() {
-        if (!task || !('message' in task)) {
-            return null;
-        }
-        return task.message.steps.map((step: Step, index: number) => (
-            <ListItem key={index}>
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={step.status.toString() === 'true'}
-                        />
-                    }
-                    label={step.title} {...(step.status.toString() === 'true' ? { style: { textDecoration: 'line-through' } } : {})}
-                />
-            </ListItem>
-        ));
-    }
+    
     if (!task) {
         return; //indicador de carga aquí
     }
     return (
         <Box className="flex flex-row">
             <Box className="hidden sm:block">
-                <IconButton onClick={() => window.history.back()}>
+                <IconButton 
+                role="buttonBack"
+                onClick={() => window.history.back()}>
                     <ArrowBackIcon color="primary" style={{ fontSize: 40 }} />
                 </IconButton>
             </Box>
@@ -90,16 +95,16 @@ const TaskDetail = () => {
                     <Box className="flex flex-col p-8">
                         <Box mb={2}>
                             <Typography variant="h4" fontWeight="bold">
-                                {task.message.title}
+                                {task && task.message && task.message.title}
                             </Typography>
                             <Box className="flex flex-col sm:flex-row">
                                 <Typography variant="body1">
                                     <CalendarMonthIcon color="primary" className="mr-2" />
-                                    {format(task.message.startDate, { date: "medium" })}
+                                    {format(task && task.message && task.message.startDate, { date: "medium" })}
                                 </Typography>
                                 <Typography variant="body1" className="ml-0 mt-2 sm:mt-0 sm:ml-5 ">
                                     <DateRangeIcon color="primary" className="mr-2" />
-                                    {format(task.message.endDate, { date: "medium" })}
+                                    {format(task && task.message && task.message.endDate, { date: "medium" })}
                                 </Typography>
                             </Box>
                         </Box>
@@ -108,7 +113,7 @@ const TaskDetail = () => {
                                 Descripción
                             </Typography>
                             <Typography variant="body1" pt={1}>
-                                {task.message.description}
+                                {task && task.message && task.message.description}
                             </Typography>
                         </Box>
                         <Box mb={2}>
@@ -116,7 +121,7 @@ const TaskDetail = () => {
                                 Listado de pasos
                             </Typography>
                             <List dense={true}>
-                                {renderSteps()}
+                                {renderSteps(task)}
                             </List>
                         </Box>
                     </Box>

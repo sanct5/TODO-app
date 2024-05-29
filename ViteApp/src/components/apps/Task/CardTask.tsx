@@ -19,13 +19,13 @@ export interface ActionAreaCardProps {
 }
 
 
-function getProgress(steps: { title: string; status: boolean; }[]) {
-    if (!steps) return 0;
+export function getProgress(steps: { title: string; status: boolean; }[]) {
+    if (!steps || steps.length === 0) return 0;
     const cantidad = steps.filter(step => step.status).length;
     return (cantidad / steps.length) * 100;
 }
 
-function LinearProgressWithLabel(props: LinearProgressProps & { value: number }) {
+export function LinearProgressWithLabel(props: LinearProgressProps & { value: number }) {
     return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ width: '100%' }}>
