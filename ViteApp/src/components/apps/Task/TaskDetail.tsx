@@ -26,7 +26,7 @@ interface Step {
 
 const TaskDetail = () => {
     const { id } = useParams();
-    const [task, setTask] = useState<{ message: task } | null>(null);
+    const [task, setTask] = useState<{ message: task } | { message: any }>({ message: { title: '', startDate: '', endDate: '', description: '', steps: [] } });
     const [loading, setLoading] = useState(true);
     const [checkedStates, setCheckedStates] = useState<Record<string, boolean>>({});
     const [updatingSteps, setUpdatingSteps] = useState<Record<string, boolean>>({});
@@ -119,7 +119,7 @@ const TaskDetail = () => {
     return (
         <Box className="flex flex-row">
             <Box className="hidden sm:block">
-                <IconButton onClick={() => window.history.back()}>
+                <IconButton onClick={() => window.history.back()} role="buttonBack">
                     <ArrowBack color="primary" style={{ fontSize: 40 }} />
                 </IconButton>
             </Box>
@@ -183,7 +183,7 @@ const TaskDetail = () => {
                                 </List>
                             </Box>
                             <IconButton className="flex w-fit self-end">
-                                <Delete color="primary" onClick={() => setOpenModal(true)} fontSize="large" />
+                                <Delete aria-label="Eliminar" color="primary" onClick={() => setOpenModal(true)} fontSize="large" />
                             </IconButton>
                         </Box>
                     </Box>)}

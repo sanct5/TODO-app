@@ -4,7 +4,7 @@ import Dashtask from '../Dashtask';
 import { test, expect } from 'vitest';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from '../../../../redux/store';
+import store from '../../../../redux/store';
 import { vi } from 'vitest';
 import axios from 'axios';
 import '@testing-library/jest-dom';

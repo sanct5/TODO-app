@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validateTask } from '../utils/validations';
-import { validateEmailFormat } from '../utils/validations';
+import { validateTask, validateEmailFormat  } from '../../../utils/validations';
 
 describe('validateEmailFormat', () => {
   it('debe retornar true para un correo electrónico válido', () => {

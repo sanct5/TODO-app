@@ -69,12 +69,10 @@ const Taskform = () => {
       };
 
       try {
-        const response = await axios.post(`${ManageTaskService.baseUrl}${ManageTaskService.endpoints.createTask}`, output);
-        console.log('Success:', response.data);
+        await axios.post(`${ManageTaskService.baseUrl}${ManageTaskService.endpoints.createTask}`, output);
         toast.success('Tarea creada con éxito');
         window.history.back();
       } catch (error) {
-        console.error('Error:', error);
         toast.error('La solicitud no fue exitosa, verifica los campos e inténtalo más tarde');
       }
     }

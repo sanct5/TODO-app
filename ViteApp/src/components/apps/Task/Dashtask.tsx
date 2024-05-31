@@ -5,7 +5,7 @@ import axios from "axios"
 import { UserState } from '../../../redux/users/userSlice';
 import { useSelector } from 'react-redux';
 import { Container, Grid, CircularProgress, Typography, TextField, IconButton, InputAdornment, Button } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Search, ArrowDownward, ArrowUpward } from '@mui/icons-material';
 import { format } from '@formkit/tempo';
 
