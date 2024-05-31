@@ -90,17 +90,15 @@ const Navbar = ({ children }: { children: ReactNode }) => {
     }
 
     //Si el usuario no está logueado y no marcó la casilla de "recuerdame", se redirige al login
-    useEffect(() => {
-        const loggedUser = getWithExpiry('user');
-        if (loggedUser) {
-            dispatch(setUser(loggedUser));
-        }
+    const loggedUser = getWithExpiry('user');
+    if (loggedUser) {
+        dispatch(setUser(loggedUser));
+    }
 
-        if (!user.isLogin && !loggedUser) {
-            toast.error('Por favor inicia sesión nuevamente');
-            navigate('/login');
-        }
-    }, []);
+    if (!user.isLogin && !loggedUser) {
+        toast.error('Por favor inicia sesión nuevamente');
+        navigate('/login');
+    }
 
     //Función para obtener el título de la página
     let title;

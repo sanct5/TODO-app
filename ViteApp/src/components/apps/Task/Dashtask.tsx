@@ -102,9 +102,6 @@ const Dashtask = () => {
                 <div className="flex flex-col justify-center items-center h-screen">
                     <CircularProgress />
                     <Typography variant="h5" className="ml-4">Cargando...</Typography>
-                    <Link to={`/login`}>
-                        <Typography variant="h5" color="primary" className="ml-4">Si tarda demasiado, por favor de click aqui</Typography>
-                    </Link>
                 </div>
             ) : (
                 <Grid container className="p-8">
