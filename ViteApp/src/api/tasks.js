@@ -4,5 +4,7 @@ export const ManageTaskService = {
         createTask: '/addTask',
         getAllByUser: '/getTasks',
         getTaskById: '/getTaskById',
+        updateTaskStep: '/UpdateTaskStep',
+        deleteTask: '/deleteTask',
     },
 };
