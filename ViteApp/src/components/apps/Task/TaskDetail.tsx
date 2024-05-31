@@ -95,8 +95,8 @@ const TaskDetail = () => {
 
     const handleDelete = async () => {
         setIsDeleting(true);
-        /*try {
-            const response = await axios.delete(`${ManageTaskService.baseUrl}${ManageTaskService.endpoints.deleteTask}/${id}`);
+        try {
+            const response = await axios.delete(`${ManageTaskService.baseUrl}${ManageTaskService.endpoints.deleteTask}`, { data: { taskId: id } });
             if (response.status !== 200) {
                 toast.error('Error al eliminar la tarea');
             } else {
@@ -113,21 +113,7 @@ const TaskDetail = () => {
             }
         } finally {
             setIsDeleting(false);
-        } */
-
-
-        // simular borrado exitoso
-        /*setTimeout(() => {
-            toast.success('Tarea eliminada');
-            setOpenModal(false);
-            window.history.back();
-        }, 2000); */
-
-        //Simular borrado fallido
-        setTimeout(() => {
-            toast.error('Error al eliminar la tarea');
-            setIsDeleting(false);
-        }, 2000);
+        }
     }
 
     return (
