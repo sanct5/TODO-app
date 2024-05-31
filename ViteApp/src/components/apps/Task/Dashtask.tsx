@@ -42,6 +42,7 @@ const Dashtask = () => {
             setLoading(true);
             const response = await axios.get<ResponseData>(`${ManageTaskService.baseUrl}${ManageTaskService.endpoints.getAllByUser}/${user}`);
             setUserTasks(response.data.message.message);
+            console.log(response.data.message.message);
             setLoading(false);
         }
         getAllUserTasks(userId);
@@ -81,6 +82,7 @@ const Dashtask = () => {
                             variant="outlined"
                             color="primary"
                             size="large"
+                            role="buttonOrder"
                             endIcon={order ? <ArrowDownward /> : <ArrowUpward />}
                             onClick={() => setOrder(!order)} // Solo cambia el estado order aquí
                         >
