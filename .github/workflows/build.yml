@@ -32,11 +32,10 @@ jobs:
               run: yarn build
 
             - name: Render Deployment
-              uses: JorgeLNJunior/render-deploy@v1.4.4
+              uses: sws2apps/render-deployment@v1.6.0
               with:
-                service_id: ${{ secrets.RENDER_SERVICE_ID }}
-                api_key: ${{ secrets.RENDER_API_KEY }}
-                github_token: ${{ secrets.GITHUB_TOKEN }}
+                serviceId: ${{ secrets.RENDER_SERVICE_ID }}
+                apiKey: ${{ secrets.RENDER_API_KEY }}
 
             - name: SonarCloud Scan
               uses: SonarSource/sonarcloud-github-action@v2.2.0
