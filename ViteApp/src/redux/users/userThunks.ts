@@ -1,4 +1,4 @@
-import { setUser, addUser } from "./userSlice";
+import { setUser } from "./userSlice";
 import { toast } from 'react-toastify';
 import axios, { AxiosError } from 'axios';
 import { validateEmailFormat } from "../../components/utils/validations";
@@ -54,9 +54,3 @@ export const LoginUser = (data: any) => {
         }
     };
 };
-
-export const RegisterUser = (data: any) => {
-    //TODO: Implementar la lógica para registrar un nuevo usuario
-}
-
-// GET

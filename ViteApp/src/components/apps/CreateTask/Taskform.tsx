@@ -24,6 +24,7 @@ interface Task {
 
 const Taskform = () => {
   const user = useSelector((state: { user: UserState }) => state.user);
+  // @ts-ignore
   const [image, setImage] = useState<File | null>(null);
   const [task, setTask] = useState<Task>({
     title: '',

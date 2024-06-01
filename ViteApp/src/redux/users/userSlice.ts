@@ -24,14 +24,11 @@ export const userSlice = createSlice({
             state.email = action.payload.email;
             state.isLogin = action.payload.isLogin;
         },
-        setStayLogged: (state, action) => { 
+        setStayLogged: (state, action) => {
             state.stayLogged = action.payload;
         },
-        addUser: (state, action) => {
-            //TODO: Implementar la lógica para registrar un nuevo usuario
-        }
     },
 });
 
-export const { setUser, addUser, setStayLogged, resetUser } = userSlice.actions;
+export const { setUser, setStayLogged, resetUser } = userSlice.actions;
 export default userSlice.reducer;
