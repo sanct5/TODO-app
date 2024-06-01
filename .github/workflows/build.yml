@@ -1,0 +1,32 @@
+name: CI/CD
+
+on:
+    pull_request: 
+        branches:
+            - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+              with: 
+                fetch-depth: 0
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                node-version: '20'
+
+            - name: Install Yarn
+              run: npm install -g yarn
+
+            - name: Install dependencies
+              run: yarn install
+
+            - name: Test
+              run: yarn test:cov
+
+            - name: Build
+              run: yarn build
