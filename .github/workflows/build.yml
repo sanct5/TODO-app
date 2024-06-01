@@ -31,14 +31,9 @@ jobs:
             - name: Build
               run: yarn build
 
+
             - name: SonarCloud Scan
-              uses: SonarSource/sonarcloud-github-action@v2.2.0
-              with:
-                projectBaseDir: src
-                args: >
-                  -Dsonar.organization=sanct5
-                  -Dsonar.projectKey=sanct5_TODO-app
-                  -Dsonar.test.exclusions=**/__tests__/**
+              uses: SonarSource/sonarcloud-github-action@master
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
