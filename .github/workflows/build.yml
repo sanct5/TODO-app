@@ -36,3 +36,11 @@ jobs:
               with:
                 serviceId: ${{ secrets.RENDER_SERVICE_ID }}
                 apiKey: ${{ secrets.RENDER_API_KEY }}
+
+            - name: SonarCloud Scan
+              uses: SonarSource/sonarcloud-github-action@v2.2.0
+              with:
+                projectBaseDir: src
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
